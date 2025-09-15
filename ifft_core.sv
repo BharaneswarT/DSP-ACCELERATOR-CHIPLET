@@ -24,13 +24,6 @@ module ifft_core #(
     reg [3:0] stage;                                //FSM stage counter
     reg ifft_active;                                //active flag
 
-    //instantiate twiddle ROM
-    twiddle_rom #(.DATA_WIDTH(DATA_WIDTH), .N(N)) twiddle_lookup (
-        .addr(twiddle_addr),
-        .twiddle_real(twiddle_real),
-        .twiddle_imag(twiddle_imag)
-    );
-
     //twiddle multiplication (positive exponential for IFFT)
     task automatic twiddle_mul;
         input signed [DATA_WIDTH-1:0] xr, xi;   // Input sample
@@ -148,5 +141,6 @@ module ifft_core #(
             end
         end
     end
+
 
 endmodule
