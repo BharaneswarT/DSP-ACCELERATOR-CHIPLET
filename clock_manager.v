@@ -11,26 +11,26 @@ module clock_manager (
     output reg clk_dma               // gated DMA clock
 );
 
-    // Internal divided clocks
+    // internal divided clocks
     reg clk_div2, clk_div4;
 
-    // Latched enable signals
+    //latched enable signals
     reg enable_fir_latched;
     reg enable_fft_latched;
     reg enable_dma_latched;
 
-    // Frequency division logic (divide-by-2 and divide-by-4)
+    // frequency division logic 
     always @(posedge clk_in or posedge reset) begin
         if (reset) begin
             clk_div2 <= 0;
             clk_div4 <= 0;
         end else begin
             clk_div2 <= ~clk_div2;
-            clk_div4 <= clk_div2 ? ~clk_div4 : clk_div4;
+            clk_div4 <= clk_div2 ? ~clk_div4 : clk_div4;  //if (clk_div2) then invert clk_div4
         end
     end
 
-    // Latch enable signals
+    // latch enable signals
     always @(posedge clk_in or posedge reset) begin
         if (reset) begin
             enable_fir_latched <= 0;
@@ -43,7 +43,7 @@ module clock_manager (
         end
     end
 
-    // Clock gating logic (registered outputs)
+    // clock gating logic (registered outputs)
     always @(posedge clk_in or posedge reset) begin
         if (reset) begin
             clk_fir <= 0;
@@ -57,3 +57,4 @@ module clock_manager (
     end
 
 endmodule
+
